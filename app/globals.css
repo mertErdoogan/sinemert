@@ -25,3 +25,7 @@ body {
     text-wrap: balance;
   }
 }
+
+.btn-border {
+  @apply border border-primary-500 px-5 text-2xl py-1 text-primary-500 bg-transparent hover:bg-primary-500 hover:text-secondary-500 hover:shadow transition-all
+}
