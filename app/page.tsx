@@ -1,10 +1,40 @@
+"use client"
+import {  Dialog } from "@headlessui/react";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
 
-  const gallery  = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png', '10.png', '11.png', '12.png']
+  const gallery = [
+    "1.png",
+    "2.png",
+    "3.png",
+    "4.png",
+    "5.png",
+    "6.png",
+    "7.png",
+    "8.png",
+    "9.png",
+    "10.png",
+    "11.png",
+    "12.png",
+    "15.jpeg",
+  ];
+  const [isOpen, setIsOpen] = useState(true);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const handleDownload = () => {
+    // Resmin URL'sini tanımlayın
+    if(!selectedImage) return null
+    const imageUrl = `/images/gallery/${selectedImage}`; // public klasöründe bulunan resim
 
-
+    // Link oluşturun
+    const link = document.createElement("a");
+    link.href = imageUrl;
+    link.download = selectedImage; // İndirilirken dosya adı
+    document.body.appendChild(link);
+    link.click(); // Linke tıklayın
+    document.body.removeChild(link); // Linki kaldırın
+  };
   return (
     <div className="snap-y snap-mandatory h-screen overflow-y-scroll scroll-smooth">
       <div className="bg-secondary-500 snap-start h-screen flex items-center justify-between">
@@ -50,14 +80,47 @@ export default function Home() {
           </p>
         </div>
       </div>
-      <div className="container snap-start h-screen">
-        <div className="grid grid-cols-4 gap-4">
+      <div className="container  snap-start h-screen">
+        <div className="grid grid-cols-4 gap-4 max-h-screen overflow-y-auto">
           {gallery.map((item, index) => (
-            <div key={index} className="block relative h-[300px]">
-              <Image src={`/images/gallery/${item}`} alt={item} fill />
-            </div>
+            <button onClick={() => {
+              setSelectedImage(item);
+              setIsOpen(true);
+            }} key={index} className="block relative h-[300px]">
+              <Image objectFit="cover" src={`/images/gallery/${item}`} alt={item} fill />
+            </button>
           ))}
         </div>
+        {selectedImage && (
+          <Dialog
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+            className="relative z-50"
+          >
+            <div className="fixed inset-0 bg-black/80 flex p-10 w-screen h-screen items-center justify-center">
+              <div className="relative w-full h-full">
+                <Image
+                  src={`/images/gallery/${selectedImage}`}
+                  alt={"qwerqwer"}
+                  objectFit="contain"
+                  layout="fill"
+                  quality={100}
+                />
+                <div className="absolute bg-black/20 w-full flex items-center justify-center h-24 bottom-0 left-2/4 -translate-x-2/4 ">
+                  <button onClick={handleDownload} className="text-lg font-bold text-white bg-blue-500 rounded-full px-8 py-2 hover:shadow">
+                    İNDİR
+                  </button>
+                </div>
+                <button
+                  className="text-2xl text-white absolute right-0 z-20"
+                  onClick={() => setIsOpen(false)}
+                >
+                  X
+                </button>
+              </div>
+            </div>
+          </Dialog>
+        )}
       </div>
     </div>
   );
