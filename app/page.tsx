@@ -39,7 +39,7 @@ export default function Home() {
     <div className="snap-y snap-mandatory h-screen overflow-y-scroll scroll-smooth">
       <div className="bg-secondary-500 snap-start h-screen flex items-center justify-between">
         <div className="container">
-          <div className="flex items-center justify-between">
+          <div className="flex md:flex-row flex-col md:py-0 py-16 items-center justify-between">
             <div className="flex-1 flex justify-end">
               <Image
                 src={"/images/new-banner.png?v2"}
@@ -49,7 +49,7 @@ export default function Home() {
               />
             </div>
             <div className="space-y-10 flex-1">
-              <div className="text-9xl flex flex-col text-center text-primary-500">
+              <div className="text-5xl md:text-9xl flex flex-col text-center text-primary-500">
                 <span>Mert</span>
                 <span>&</span>
                 <span>Sinem</span>
@@ -81,12 +81,12 @@ export default function Home() {
         </div>
       </div>
       <div className="container  snap-start h-screen">
-        <div className="grid grid-cols-4 gap-4 max-h-screen overflow-y-auto">
+        <div className="grid grid-cols-2 md:px-0 px-4 md:grid-cols-4 gap-4 max-h-screen overflow-y-auto">
           {gallery.map((item, index) => (
             <button onClick={() => {
               setSelectedImage(item);
               setIsOpen(true);
-            }} key={index} className="block relative h-[300px]">
+            }} key={index} className="block relative h-[190px] md:h-[300px]">
               <Image objectFit="cover" src={`/images/gallery/${item}`} alt={item} fill />
             </button>
           ))}
